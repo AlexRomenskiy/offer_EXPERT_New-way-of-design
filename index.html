@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CRAFT LIONS — система продажу для експертів-підприємців. Лендинг, чат-бот, автоматичні оплати під ключ за 5–21 днів.">
+<title>CRAFT LIONS — Система продажу для експертів-підприємців</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --c-ink: #0B1220;
+    --c-ink-2: #111A2E;
+    --c-paper: #F4F8FC;
+    --c-paper-2: #EAF1F8;
+    --c-blue: #3B82F6;
+    --c-blue-soft: #60A5FA;
+    --c-blue-deep: #1D4ED8;
+    --c-orange: #FB923C;
+    --c-orange-soft: #FDBA74;
+    --c-emerald: #10B981;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Montserrat', sans-serif; background: #F4F8FC; color: var(--c-ink); -webkit-font-smoothing: antialiased; }
+  .font-display { font-family: 'Montserrat', sans-serif; }
+  .font-serif-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+  .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .anim-wrap { overflow: hidden; display: inline-block; vertical-align: bottom; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+    .anim-line { display: inline-block; transform: translateY(110%); opacity: 0; transition: transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s cubic-bezier(0.22,1,0.36,1); }
+    .anim-fade-up { transform: translateY(24px); opacity: 0; transition: transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s cubic-bezier(0.22,1,0.36,1); }
+    .is-visible .anim-line, .is-visible.anim-line { transform: translateY(0); opacity: 1; }
+    .is-visible .anim-fade-up, .is-visible.anim-fade-up { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes spin { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
+  .cta-beam { position: relative; isolation: isolate; }
+  .cta-beam::before {
+    content:''; position:absolute; inset:-2px; border-radius:9999px; z-index:-2;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(251,146,60,0) 200deg, rgba(251,146,60,1) 300deg, rgba(253,186,116,0.9) 340deg, transparent 360deg);
+    animation: spin 3.4s linear infinite;
+  }
+  .cta-beam::after { content:''; position:absolute; inset:2px; border-radius:9999px; background:#0B1220; z-index:-1; }
+  .cta-beam-light::after { background:#ffffff; }
+
+  @keyframes blink { 50% { opacity: 0; } }
+  .tw-cursor { animation: blink 0.9s steps(1) infinite; }
+
+  @keyframes pulseDot {
+    0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.55); }
+    70%  { box-shadow: 0 0 0 9px rgba(59,130,246,0); }
+    100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+  }
+  .pulse-dot { animation: pulseDot 2.2s infinite; }
+
+  @keyframes typing { 0%,60%,100% { opacity: 0.25; transform: translateY(0);} 30% { opacity: 1; transform: translateY(-2px);} }
+  .typing-dot { animation: typing 1.4s infinite; }
+  .typing-dot:nth-child(2){ animation-delay: 0.15s; }
+  .typing-dot:nth-child(3){ animation-delay: 0.3s; }
+
+  /* Channel tooltip */
+  .channel-pill { position: relative; }
+  .channel-pill:hover .channel-tip { opacity: 1; transform: translate(-50%, -4px); }
+  .channel-tip {
+    position:absolute; bottom:100%; left:50%; transform:translate(-50%, 4px);
+    white-space:nowrap; opacity:0; transition: all .2s;
+    background: rgba(15,23,42,0.95); color:white; padding: 5px 9px; border-radius: 6px;
+    font-size: 10px; margin-bottom: 10px; letter-spacing: .14em; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace; pointer-events:none;
+  }
+
+  /* Mode toggle */
+  .mode-toggle .track { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); transition: background .35s ease; }
+  .mode-toggle .thumb { background: white; transition: transform .35s cubic-bezier(.22,1,.36,1); box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+  .mode-toggle.is-auto .track { background: linear-gradient(90deg,#3B82F6, #60A5FA); border-color: rgba(255,255,255,0.2); }
+  .mode-toggle.is-auto .thumb { transform: translateX(28px); }
+
+  /* FAQ */
+  details.faq-item summary { list-style: none; cursor: pointer; }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item[open] .faq-icon { transform: rotate(45deg); }
+  .faq-icon { transition: transform .3s ease; }
+  details.faq-item .faq-body { max-height: 0; overflow: hidden; transition: max-height .45s ease, opacity .45s ease; opacity: 0; }
+  details.faq-item[open] .faq-body { max-height: 600px; opacity: 1; }
+
+  /* Pricing tabs */
+  .price-tab.is-active { background: #0B1220; color: white; }
+
+  /* Mobile menu */
+  .mobile-menu { transform: translateY(-12px); opacity: 0; pointer-events: none; transition: all .3s ease; }
+  .mobile-menu.is-open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+  /* Plateau line */
+  @keyframes drift { 0%,100% { transform: translateX(0);} 50% { transform: translateX(4px);} }
+  .drift { animation: drift 4s ease-in-out infinite; }
+
+  /* Live ticker */
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+  .live-row { animation: slideIn .6s cubic-bezier(.22,1,.36,1) forwards; }
+
+  /* Phone shell */
+  .phone-shell {
+    border-radius: 44px;
+    background: linear-gradient(180deg, #1f2937, #0f172a);
+    padding: 10px;
+    box-shadow:
+      0 36px 80px -20px rgba(15,23,42,0.5),
+      0 12px 30px -8px rgba(15,23,42,0.3),
+      inset 0 2px 0 rgba(255,255,255,0.06),
+      inset 0 -2px 0 rgba(0,0,0,0.4);
+  }
+  .phone-screen {
+    border-radius: 34px;
+    background: #0b1120;
+    overflow: hidden;
+    position: relative;
+  }
+  .dynamic-island {
+    width: 110px; height: 28px; border-radius: 9999px;
+    background: #000;
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 30;
+  }
+
+  /* Tablet shell */
+  .tablet-shell {
+    border-radius: 34px;
+    background: linear-gradient(180deg, #1f2937, #0f172a);
+    padding: 12px;
+    box-shadow:
+      0 50px 120px -30px rgba(15,23,42,0.55),
+      0 20px 40px -12px rgba(15,23,42,0.35),
+      inset 0 2px 0 rgba(255,255,255,0.06),
+      inset 0 -2px 0 rgba(0,0,0,0.4);
+  }
+  .tablet-screen { border-radius: 24px; overflow: hidden; background: #0b1120; position: relative; }
+
+  /* Stat number gradient */
+  .stat-num { background: linear-gradient(180deg, #ffffff 0%, #93C5FD 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat-num-ink { background: linear-gradient(180deg, #0B1220 0%, #1D4ED8 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* Card hover micro */
+  .card-hover { transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease; }
+  .card-hover:hover { transform: translateY(-4px); }
+
+  /* Marquee for case chips */
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .shimmer-text { background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,1), rgba(255,255,255,0.4)); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 6s linear infinite; }
+
+  /* Selection */
+  ::selection { background: rgba(59,130,246,0.35); color: white; }
+</style>
+</head>
+
+<body>
+
+<!-- ============ BACKGROUND ATMOSPHERE (fixed) ============ -->
+<div class="fixed inset-0 z-[-1] pointer-events-none">
+  <div class="absolute inset-0 bg-gradient-to-b from-[#F4F8FC] via-[#EEF4FA] to-[#F4F8FC]"></div>
+  <svg class="absolute w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg" style="-webkit-mask-image: radial-gradient(100% 100% at top left, black, transparent); mask-image: radial-gradient(100% 100% at top left, black, transparent);">
+    <defs>
+      <pattern id="bg-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.2" fill="#0f172a"></circle>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#bg-grid)"></rect>
+  </svg>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-transparent px-4 sm:px-6 pt-5">
+  <div class="max-w-5xl mx-auto py-2.5 sm:py-3 px-3 sm:px-4 lg:px-6 rounded-full border"
+       style="background: linear-gradient(180deg, rgba(11,18,32,0.6), rgba(11,18,32,0.4)) padding-box, linear-gradient(120deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08)) border-box; border: 1px solid transparent; backdrop-filter: blur(16px) saturate(120%); -webkit-backdrop-filter: blur(16px) saturate(120%); box-shadow: 0 10px 30px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.04);">
+    <div class="flex items-center justify-between gap-3">
+      <a href="#top" class="flex items-center gap-2.5 group">
+        <span class="relative inline-flex items-center justify-center w-8 h-8 rounded-full border border-blue-400/30 bg-gradient-to-br from-blue-500/20 to-blue-600/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+          <svg viewBox="0 0 32 32" class="w-4 h-4 text-blue-400" fill="none">
+            <path d="M16 4 L26 12 L23 24 L9 24 L6 12 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="16" cy="15" r="2.4" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="text-[15px] sm:text-[16px] font-semibold tracking-[0.18em]">
+          <span class="text-white/90">CRAFT</span><span class="text-blue-400 ml-1">LIONS</span>
+        </span>
+      </a>
+
+      <ul class="hidden md:flex items-center gap-1 text-[13px] font-medium text-white/65">
+        <li><a href="#how" class="hover:text-white transition-colors duration-300 px-3.5 py-2 rounded-full hover:bg-white/5">Як працюємо</a></li>
+        <li><a href="#case" class="hover:text-white transition-colors duration-300 px-3.5 py-2 rounded-full hover:bg-white/5">Кейс</a></li>
+        <li><a href="#pricing" class="hover:text-white transition-colors duration-300 px-3.5 py-2 rounded-full hover:bg-white/5">Тарифи</a></li>
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <a href="#final-cta" class="hidden md:inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[13px] font-medium text-slate-900 bg-white/95 hover:bg-white transition-all duration-300 shadow-[0_2px_10px_rgba(255,255,255,0.1)]">
+          Записатися
+        </a>
+        <button id="mobile-toggle" class="md:hidden inline-flex items-center justify-center p-2 rounded-full border border-white/10 hover:bg-white/5 transition" aria-label="Меню">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-white/80">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="13" x2="20" y2="13"></line>
+            <line x1="4" y1="19" x2="14" y2="19"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="mobile-menu md:hidden mt-2 max-w-5xl mx-auto rounded-3xl border border-white/10 overflow-hidden"
+       style="background: linear-gradient(180deg, rgba(11,18,32,0.85), rgba(11,18,32,0.7)); backdrop-filter: blur(20px) saturate(130%);">
+    <ul class="p-2 text-white/80 text-[15px]">
+      <li><a href="#how" class="block px-4 py-3 rounded-2xl hover:bg-white/5">Як працюємо</a></li>
+      <li><a href="#case" class="block px-4 py-3 rounded-2xl hover:bg-white/5">Кейс</a></li>
+      <li><a href="#pricing" class="block px-4 py-3 rounded-2xl hover:bg-white/5">Тарифи</a></li>
+    </ul>
+    <div class="p-2 pt-0">
+      <a href="#final-cta" class="block text-center px-4 py-3 rounded-full bg-white text-slate-900 font-medium">Записатися</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative overflow-hidden min-h-[100svh] flex items-center px-6 md:px-8 lg:px-12">
+  <!-- Atmospheric dark layer -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_10%,#1E293B_0%,#0B1220_45%,#070B16_100%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_24%_32%,rgba(59,130,246,0.22),transparent_30%),radial-gradient(circle_at_82%_22%,rgba(96,165,250,0.18),transparent_28%),radial-gradient(circle_at_70%_85%,rgba(251,146,60,0.10),transparent_35%)]"></div>
+    <!-- subtle stars -->
+    <svg class="absolute inset-0 w-full h-full opacity-[0.16]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hero-stars" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="0.9" fill="white"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hero-stars)" style="mask-image: radial-gradient(80% 60% at 60% 30%, black, transparent); -webkit-mask-image: radial-gradient(80% 60% at 60% 30%, black, transparent);"/>
+    </svg>
+    <!-- soft horizon -->
+    <div class="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-b from-transparent to-[#070B16]"></div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-7xl mx-auto pt-36 pb-24 lg:pt-44 lg:pb-32 grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+
+    <!-- LEFT: Headline + CTA -->
+    <div class="anim-trigger is-visible">
+      <!-- Eyebrow -->
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl px-4 py-2 mb-7 anim-fade-up" style="transition-delay: 0s;">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400 pulse-dot"></span>
+        <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/85">Автоматизація продажу · 2026</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="font-display text-[2.6rem] sm:text-[3.4rem] lg:text-[4.4rem] xl:text-[5rem] leading-[1.0] tracking-[-0.045em] text-white mb-7">
+        <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.08s">Система продажу</span></span>
+        <br>
+        <span class="anim-wrap"><span class="anim-line font-light text-white/80 hidden sm:inline" style="transition-delay:.18s">для експертів-підприємців</span></span>
+        <span class="anim-wrap sm:hidden"><span class="anim-line font-light text-white/80" style="transition-delay:.18s">для експертів</span></span>
+      </h1>
+
+      <!-- Subtitle with side rule -->
+      <div class="relative pl-5 mb-9 max-w-[44rem] anim-fade-up" style="transition-delay:.32s;">
+        <span class="absolute left-0 top-1 bottom-1 w-[2px] bg-gradient-to-b from-blue-400 via-blue-500/60 to-transparent"></span>
+        <p class="text-[1.02rem] sm:text-[1.12rem] leading-[1.7] text-white/75">
+          Перетворюю твою експертизу на систему, що працює без тебе: ловить ліди, веде до оплати, видає продукт.
+        </p>
+        <p class="text-[1.02rem] sm:text-[1.12rem] leading-[1.7] text-white/55 mt-2">
+          Поки система продає — ти займаєшся клієнтами.
+        </p>
+      </div>
+
+      <!-- Channel band -->
+      <div class="anim-fade-up mb-10" style="transition-delay:.4s;">
+        <div class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/45 mb-3">Підхоплює ліди звідусіль, де ти є:</div>
+        <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="Telegram">
+            <iconify-icon icon="ri:telegram-fill" width="18" class="text-[#229ED9]"></iconify-icon>
+            <span class="channel-tip">Telegram</span>
+          </span>
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="Instagram">
+            <iconify-icon icon="ri:instagram-fill" width="18" class="text-pink-400"></iconify-icon>
+            <span class="channel-tip">Instagram</span>
+          </span>
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="WhatsApp">
+            <iconify-icon icon="ri:whatsapp-fill" width="18" class="text-[#25D366]"></iconify-icon>
+            <span class="channel-tip">WhatsApp</span>
+          </span>
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="TikTok">
+            <iconify-icon icon="ri:tiktok-fill" width="18" class="text-white/90"></iconify-icon>
+            <span class="channel-tip">TikTok</span>
+          </span>
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="Messenger">
+            <iconify-icon icon="ri:messenger-fill" width="18" class="text-[#0084FF]"></iconify-icon>
+            <span class="channel-tip">Messenger</span>
+          </span>
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="Email">
+            <iconify-icon icon="ri:mail-fill" width="18" class="text-blue-300"></iconify-icon>
+            <span class="channel-tip">Email</span>
+          </span>
+          <span class="channel-pill inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md hover:bg-white/10 transition" tabindex="0" aria-label="SMS">
+            <iconify-icon icon="ri:chat-1-fill" width="18" class="text-emerald-300"></iconify-icon>
+            <span class="channel-tip">SMS</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="anim-fade-up flex flex-col sm:flex-row items-start sm:items-center gap-4" style="transition-delay:.5s;">
+        <a href="#final-cta" class="cta-beam group inline-flex h-14 items-center justify-center rounded-full px-7 text-[14px] font-medium text-white">
+          <span class="relative z-10 inline-flex items-center gap-2.5">
+            <span>Записатися на безкоштовний розбір</span>
+            <iconify-icon icon="solar:arrow-right-linear" width="18" class="transition-transform duration-300 group-hover:translate-x-1"></iconify-icon>
+          </span>
+        </a>
+        <div class="flex items-center gap-3 text-[12px] font-mono-tech uppercase tracking-[0.18em] text-white/50">
+          <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-emerald-400"></span>30 хв</span>
+          <span>·</span>
+          <span>Безкоштовно</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Command center mock -->
+    <div class="relative anim-trigger is-visible">
+      <div class="relative max-w-[460px] mx-auto lg:max-w-none anim-fade-up" style="transition-delay:.25s;">
+        <!-- Floating accent rings -->
+        <div class="absolute -top-12 -right-10 w-56 h-56 rounded-full bg-blue-500/20 blur-[80px]"></div>
+        <div class="absolute -bottom-10 -left-10 w-56 h-56 rounded-full bg-orange-500/15 blur-[90px]"></div>
+
+        <!-- Command center panel -->
+        <div class="relative rounded-[28px] overflow-hidden border border-white/15 backdrop-blur-2xl"
+             style="background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02) 60%); box-shadow: 0 30px 80px -20px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);">
+          <!-- header strip -->
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-white/10">
+            <div class="flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/70">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" style="animation-duration:1.6s;"></span>
+              Командний центр
+            </div>
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/40">live</span>
+          </div>
+
+          <!-- metric grid -->
+          <div class="grid grid-cols-2 divide-x divide-white/10">
+            <div class="p-5">
+              <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45 mb-1">Сьогодні</div>
+              <div class="font-display text-3xl font-light text-white tracking-[-0.04em]">+12 <span class="text-blue-400 text-lg align-top">лідів</span></div>
+            </div>
+            <div class="p-5">
+              <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45 mb-1">Дохід</div>
+              <div class="font-display text-3xl font-light text-white tracking-[-0.04em]">$891</div>
+            </div>
+          </div>
+
+          <!-- live feed -->
+          <div class="px-5 py-4 border-t border-white/10 space-y-3 bg-[radial-gradient(80%_120%_at_50%_0%,rgba(59,130,246,0.10),transparent)]">
+            <div class="flex items-center justify-between gap-3 live-row">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30">
+                  <iconify-icon icon="solar:dollar-minimalistic-bold" width="14" class="text-emerald-300"></iconify-icon>
+                </span>
+                <div>
+                  <div class="text-[13px] text-white/90">Оплата · Олена К.</div>
+                  <div class="text-[11px] text-white/40 font-mono-tech tracking-[0.1em]">Курс «Експерт-Системи»</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-[13px] font-medium text-emerald-300">+$497</div>
+                <div class="text-[10px] text-white/40 font-mono-tech">14:23</div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between gap-3 live-row" style="animation-delay:.2s;">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/15 border border-blue-500/30">
+                  <iconify-icon icon="solar:chat-round-dots-bold" width="14" class="text-blue-300"></iconify-icon>
+                </span>
+                <div>
+                  <div class="text-[13px] text-white/90">Новий лід · @maria_z</div>
+                  <div class="text-[11px] text-white/40 font-mono-tech tracking-[0.1em]">Instagram → бот</div>
+                </div>
+              </div>
+              <div class="text-[10px] text-white/40 font-mono-tech">14:21</div>
+            </div>
+            <div class="flex items-center justify-between gap-3 live-row" style="animation-delay:.4s;">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-orange-500/15 border border-orange-500/30">
+                  <iconify-icon icon="solar:download-minimalistic-bold" width="14" class="text-orange-300"></iconify-icon>
+                </span>
+                <div>
+                  <div class="text-[13px] text-white/90">Видача · Павло С.</div>
+                  <div class="text-[11px] text-white/40 font-mono-tech tracking-[0.1em]">Доступ відкрито автоматично</div>
+                </div>
+              </div>
+              <div class="text-[10px] text-white/40 font-mono-tech">14:18</div>
+            </div>
+          </div>
+
+          <!-- channel chips footer -->
+          <div class="px-5 py-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono-tech uppercase tracking-[0.18em] text-white/45">
+            <span class="inline-flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-emerald-400"></span>7 каналів · online</span>
+            <span>ManyChat</span>
+          </div>
+        </div>
+
+        <!-- floating chip -->
+        <div class="absolute -bottom-6 -right-4 hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-white text-slate-900 text-[11px] font-mono-tech uppercase tracking-[0.18em] shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+          <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+          Конверсія +34%
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- divider -->
+  <div class="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+</section>
+
+<!-- ============ PAIN SECTION ============ -->
+<section id="pain" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#F4F8FC] overflow-hidden">
+  <!-- soft wash -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_0%,rgba(59,130,246,0.06),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.6) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <!-- Intro -->
+    <div class="grid md:grid-cols-[1fr_auto] gap-8 items-end mb-14 lg:mb-16 anim-trigger">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 backdrop-blur-xl px-4 py-2 shadow-sm mb-6 anim-fade-up">
+          <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+          <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-slate-600">Болі експерта · 5/5</span>
+        </div>
+        <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-slate-950">
+          <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Скільки з цього</span></span><br>
+          <span class="anim-wrap"><span class="anim-line font-light text-slate-500" style="transition-delay:.2s">у тебе зараз?</span></span>
+        </h2>
+        <p class="mt-5 text-[1rem] sm:text-[1.06rem] leading-[1.75] text-slate-600 anim-fade-up max-w-xl" style="transition-delay:.3s;">
+          5 типових ситуацій, у яких застрягають експерти, поки продажі тримаються на ручному режимі.
+        </p>
+      </div>
+      <div class="hidden md:flex items-center gap-3 font-mono-tech text-[11px] uppercase tracking-[0.22em] text-slate-500 anim-fade-up" style="transition-delay:.3s;">
+        <span id="pain-progress">01</span><span class="w-12 h-px bg-slate-300"></span><span>05</span>
+      </div>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 anim-trigger">
+
+      <!-- CARD 1 — Funnel -->
+      <article class="card-hover relative rounded-[24px] p-7 border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-orange-100/60 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500">01 · Funnel leak</span>
+          <iconify-icon icon="solar:filter-linear" width="18" class="text-slate-400"></iconify-icon>
+        </div>
+        <!-- mini funnel viz -->
+        <div class="relative h-32 mb-6">
+          <div class="absolute inset-x-0 top-0 h-7 rounded-md bg-gradient-to-r from-blue-500/80 to-blue-600/80 flex items-center justify-between px-3 text-white text-xs font-mono-tech tracking-wider">
+            <span>100</span><span>заявки</span>
+          </div>
+          <div class="absolute left-[12%] right-[12%] top-12 h-7 rounded-md bg-gradient-to-r from-blue-400/70 to-blue-500/70 flex items-center justify-between px-3 text-white text-xs font-mono-tech tracking-wider">
+            <span>~40</span><span>на дзвінок</span>
+          </div>
+          <div class="absolute left-[34%] right-[34%] top-24 h-7 rounded-md bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-between px-2.5 text-white text-[11px] font-mono-tech tracking-wider">
+            <span>~5</span><span>$</span>
+          </div>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] leading-tight tracking-[-0.02em] text-slate-950 mb-2">Аудиторія є — продаж замало</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Контент дивляться, заявки пишуть. Але до оплати доходять одиниці — лід губиться десь між DM і чеком.</p>
+      </article>
+
+      <!-- CARD 2 — Inbox -->
+      <article class="card-hover relative rounded-[24px] p-7 border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden" style="transition-delay:.08s;">
+        <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-rose-100/60 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500">02 · Inbox debt</span>
+          <span class="inline-flex items-center justify-center min-w-[26px] h-[22px] px-2 rounded-full bg-rose-500 text-white text-[11px] font-semibold">12</span>
+        </div>
+        <!-- inbox viz -->
+        <div class="space-y-2 mb-6">
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-100">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            <span class="text-[12px] text-slate-700 truncate flex-1">@alex_new · Скільки коштує?</span>
+            <span class="text-[10px] font-mono-tech text-slate-400">15хв</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-100">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            <span class="text-[12px] text-slate-700 truncate flex-1">@maria_z · Доброго дня</span>
+            <span class="text-[10px] font-mono-tech text-slate-400">38хв</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-100">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            <span class="text-[12px] text-slate-700 truncate flex-1">@ihor_e · Можна записатися?</span>
+            <span class="text-[10px] font-mono-tech text-slate-400">1год</span>
+          </div>
+          <div class="text-[10px] font-mono-tech uppercase tracking-[0.18em] text-slate-400 pt-1">+ 9 непрочитаних</div>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] leading-tight tracking-[-0.02em] text-slate-950 mb-2">Кожен клієнт — на твоїх плечах</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Повідомлення, скрипти, рахунки, доступи — усе вручну. Один клієнт забирає години твого часу.</p>
+      </article>
+
+      <!-- CARD 3 — Offline -->
+      <article class="card-hover relative rounded-[24px] p-7 border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden" style="transition-delay:.16s;">
+        <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-slate-200/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500">03 · Single point of failure</span>
+          <iconify-icon icon="solar:moon-linear" width="18" class="text-slate-400"></iconify-icon>
+        </div>
+        <!-- offline clock -->
+        <div class="relative mb-6 h-32 rounded-2xl border border-slate-200/70 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200/40">
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <div class="font-display text-4xl font-light text-slate-700 tracking-[-0.04em]">23:47</div>
+            <div class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500 mt-1">пʼятниця</div>
+            <div class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 text-white text-[10px] font-mono-tech uppercase tracking-[0.18em]">
+              <span class="w-1 h-1 rounded-full bg-rose-400"></span>офлайн
+            </div>
+          </div>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] leading-tight tracking-[-0.02em] text-slate-950 mb-2">Без тебе система зупиняється</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Не вийшов на роботу день — заявки без відповіді. Поїхав у відпустку — продажі стали.</p>
+      </article>
+
+      <!-- CARD 4 — Tech tangle -->
+      <article class="card-hover relative rounded-[24px] p-7 border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden" style="transition-delay:.24s;">
+        <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-blue-100/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500">04 · Stack overload</span>
+          <iconify-icon icon="solar:question-circle-linear" width="18" class="text-slate-400"></iconify-icon>
+        </div>
+        <!-- logo cluster -->
+        <div class="relative h-32 mb-6">
+          <div class="absolute inset-0 grid grid-cols-3 gap-2 items-center justify-items-center">
+            <span class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm"><iconify-icon icon="simple-icons:manychat" width="16" class="text-blue-500"></iconify-icon></span>
+            <span class="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-md font-bold text-xl">?</span>
+            <span class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm"><iconify-icon icon="ri:stripe-fill" width="18" class="text-indigo-600"></iconify-icon></span>
+            <span class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm"><iconify-icon icon="simple-icons:zapier" width="16" class="text-orange-500"></iconify-icon></span>
+            <span class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm"><iconify-icon icon="ri:google-fill" width="16" class="text-rose-500"></iconify-icon></span>
+            <span class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm"><iconify-icon icon="simple-icons:notion" width="16" class="text-slate-900"></iconify-icon></span>
+          </div>
+          <!-- crossing lines -->
+          <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-50" viewBox="0 0 200 130" fill="none">
+            <path d="M30 25 Q100 65 170 25" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M30 105 Q100 65 170 105" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M30 25 L170 105" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M170 25 L30 105" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] leading-tight tracking-[-0.02em] text-slate-950 mb-2">Технічно зібрати самому — окрема професія</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Бот, лендинг, інтеграції оплат, CRM. Тижні вивчення — або підрядники, що тягнуть бюджет і строки.</p>
+      </article>
+
+      <!-- CARD 5 — Plateau -->
+      <article class="card-hover relative rounded-[24px] p-7 border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden sm:col-span-2 lg:col-span-1" style="transition-delay:.32s;">
+        <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-amber-100/60 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500">05 · Income ceiling</span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-mono-tech uppercase tracking-[0.18em]">Плато</span>
+        </div>
+        <!-- plateau graph -->
+        <div class="relative h-32 mb-6 rounded-2xl border border-slate-200/70 overflow-hidden p-3 bg-gradient-to-br from-amber-50/50 to-white">
+          <svg viewBox="0 0 200 80" class="w-full h-full" fill="none">
+            <defs>
+              <linearGradient id="plateauG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FB923C" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#FB923C" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M5 70 L25 55 L50 38 L75 24 L100 18 L130 18 L160 19 L195 18 L195 80 L5 80 Z" fill="url(#plateauG)"/>
+            <path d="M5 70 L25 55 L50 38 L75 24 L100 18 L130 18 L160 19 L195 18" stroke="#F97316" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="100" y1="18" x2="195" y2="18" stroke="#F97316" stroke-width="1.8" stroke-dasharray="3 3" class="drift"/>
+            <circle cx="195" cy="18" r="3" fill="#F97316"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] leading-tight tracking-[-0.02em] text-slate-950 mb-2">Дохід упирається в стелю</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Скільки б заявок не приходило — більше за певну кількість на тиждень не відпрацюєш. Час — обмежений ресурс.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SYSTEM INCLUDES ============ -->
+<section id="how" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#EAF1F8] overflow-hidden border-t border-slate-200/60">
+  <!-- decorative atmosphere -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(60%_50%_at_85%_0%,rgba(59,130,246,0.12),transparent_60%),radial-gradient(50%_50%_at_15%_100%,rgba(96,165,250,0.10),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.6) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-[1.1fr_1fr] gap-8 md:gap-16 mb-14 lg:mb-16 anim-trigger">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/70 backdrop-blur-xl px-4 py-2 shadow-sm mb-6 anim-fade-up">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+          <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-blue-700">Архітектура системи</span>
+        </div>
+        <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-slate-950">
+          <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Що входить</span></span><br>
+          <span class="anim-wrap"><span class="anim-line font-light text-slate-500" style="transition-delay:.2s">у систему</span></span>
+        </h2>
+      </div>
+      <p class="text-[1rem] sm:text-[1.06rem] leading-[1.75] text-slate-600 anim-fade-up max-w-[44ch] self-end" style="transition-delay:.3s;">
+        Шість елементів, що працюють як один потік: від першого торкання до оплати і видачі продукту — без твоєї щохвилинної участі.
+      </p>
+    </div>
+
+    <!-- 6-cell modular grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 anim-trigger">
+
+      <!-- 1. Landing -->
+      <article class="card-hover relative rounded-[24px] p-7 lg:p-8 border border-white/65 bg-white/55 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.14)] anim-fade-up overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-blue-100/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-slate-950 text-white">
+            <iconify-icon icon="solar:monitor-bold" width="20"></iconify-icon>
+          </span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">01</span>
+        </div>
+        <!-- mini browser mock -->
+        <div class="rounded-xl border border-slate-200 bg-white overflow-hidden mb-5 shadow-sm">
+          <div class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 border-b border-slate-100">
+            <span class="w-2 h-2 rounded-full bg-rose-300"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-300"></span>
+            <span class="w-2 h-2 rounded-full bg-emerald-300"></span>
+          </div>
+          <div class="p-3 space-y-2">
+            <div class="h-2 w-3/4 rounded bg-slate-200"></div>
+            <div class="h-2 w-1/2 rounded bg-slate-100"></div>
+            <div class="mt-2 inline-flex items-center px-2 py-1 rounded-full bg-blue-600 text-white text-[10px] font-mono-tech tracking-wider">CTA</div>
+          </div>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] tracking-[-0.02em] text-slate-950 mb-2">Лендинг</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Конверсійна сторінка під твою експертизу — структура, копірайт, оффер. Веде відвідувача від інтересу до заявки.</p>
+      </article>
+
+      <!-- 2. Lead magnet -->
+      <article class="card-hover relative rounded-[24px] p-7 lg:p-8 border border-white/65 bg-white/55 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.14)] anim-fade-up overflow-hidden" style="transition-delay:.06s;">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-orange-100/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-slate-950 text-white">
+            <iconify-icon icon="solar:magnet-bold" width="20"></iconify-icon>
+          </span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">02</span>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-5">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700"><iconify-icon icon="solar:document-text-bold" width="12" class="text-rose-500"></iconify-icon>PDF</span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700"><iconify-icon icon="solar:checklist-minimalistic-bold" width="12" class="text-blue-500"></iconify-icon>Чек-лист</span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700"><iconify-icon icon="solar:question-circle-bold" width="12" class="text-emerald-500"></iconify-icon>Квіз</span>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] tracking-[-0.02em] text-slate-950 mb-2">Лід-магніт</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Безкоштовна цінність, що ловить контакт: PDF, чек-лист або квіз — перший крок до угоди.</p>
+      </article>
+
+      <!-- 3. Chatbot -->
+      <article class="card-hover relative rounded-[24px] p-7 lg:p-8 border border-white/65 bg-white/55 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.14)] anim-fade-up overflow-hidden" style="transition-delay:.12s;">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-100/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-slate-950 text-white">
+            <iconify-icon icon="solar:chat-round-dots-bold" width="20"></iconify-icon>
+          </span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">03</span>
+        </div>
+        <!-- channel orbit -->
+        <div class="relative h-24 mb-5 flex items-center justify-center">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-20 h-20 rounded-full border border-blue-200"></div>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-slate-950 text-white flex items-center justify-center text-[10px] font-mono-tech uppercase tracking-wider">7 каналів</div>
+          </div>
+          <iconify-icon icon="ri:telegram-fill" width="14" class="absolute text-[#229ED9]" style="top: 4px; left: 50%; transform: translateX(-50%);"></iconify-icon>
+          <iconify-icon icon="ri:instagram-fill" width="14" class="absolute text-pink-500" style="top: 20%; right: 12%;"></iconify-icon>
+          <iconify-icon icon="ri:whatsapp-fill" width="14" class="absolute text-[#25D366]" style="bottom: 20%; right: 12%;"></iconify-icon>
+          <iconify-icon icon="ri:tiktok-fill" width="14" class="absolute text-slate-900" style="bottom: 4px; left: 50%; transform: translateX(-50%);"></iconify-icon>
+          <iconify-icon icon="ri:messenger-fill" width="14" class="absolute text-[#0084FF]" style="bottom: 20%; left: 12%;"></iconify-icon>
+          <iconify-icon icon="ri:mail-fill" width="14" class="absolute text-blue-500" style="top: 20%; left: 12%;"></iconify-icon>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] tracking-[-0.02em] text-slate-950 mb-2">Чат-бот</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Підхоплює ліди в усіх 7 каналах одразу: відповідає, кваліфікує, веде до оплати — без втрачених повідомлень.</p>
+      </article>
+
+      <!-- 4. Payments + Delivery -->
+      <article class="card-hover relative rounded-[24px] p-7 lg:p-8 border border-white/65 bg-white/55 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.14)] anim-fade-up overflow-hidden" style="transition-delay:.18s;">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-indigo-100/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-slate-950 text-white">
+            <iconify-icon icon="solar:card-2-bold" width="20"></iconify-icon>
+          </span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">04</span>
+        </div>
+        <!-- flow -->
+        <div class="flex items-center gap-2 mb-5">
+          <div class="flex-1 flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-white border border-slate-200">
+            <iconify-icon icon="solar:dollar-minimalistic-bold" width="16" class="text-emerald-500"></iconify-icon>
+            <span class="text-[11px] font-mono-tech uppercase tracking-wider text-slate-700">Оплата</span>
+          </div>
+          <iconify-icon icon="solar:arrow-right-linear" width="16" class="text-slate-400 shrink-0"></iconify-icon>
+          <div class="flex-1 flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-white border border-slate-200">
+            <iconify-icon icon="solar:key-bold" width="16" class="text-blue-500"></iconify-icon>
+            <span class="text-[11px] font-mono-tech uppercase tracking-wider text-slate-700">Доступ</span>
+          </div>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] tracking-[-0.02em] text-slate-950 mb-2">Прийом оплат + видача</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Один автоматизований потік: оплата зайшла — клієнт одразу отримує продукт. Без переписок, без затримок.</p>
+      </article>
+
+      <!-- 5. Analytics -->
+      <article class="card-hover relative rounded-[24px] p-7 lg:p-8 border border-white/65 bg-white/55 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.14)] anim-fade-up overflow-hidden" style="transition-delay:.24s;">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-violet-100/70 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-5">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-slate-950 text-white">
+            <iconify-icon icon="solar:graph-up-bold" width="20"></iconify-icon>
+          </span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">05</span>
+        </div>
+        <!-- mini chart -->
+        <div class="rounded-xl border border-slate-200 bg-white p-3 mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-slate-500">ROI · 30 днів</span>
+            <span class="font-mono-tech text-[9px] uppercase tracking-[0.2em] text-emerald-600">+218%</span>
+          </div>
+          <svg viewBox="0 0 200 50" class="w-full h-12" fill="none">
+            <defs>
+              <linearGradient id="analyticsG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M5 40 L30 38 L55 30 L80 32 L105 22 L130 18 L155 12 L195 6 L195 50 L5 50 Z" fill="url(#analyticsG)"/>
+            <path d="M5 40 L30 38 L55 30 L80 32 L105 22 L130 18 L155 12 L195 6" stroke="#2563EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="195" cy="6" r="3" fill="#2563EB"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-medium text-[1.2rem] tracking-[-0.02em] text-slate-950 mb-2">Аналітика</h3>
+        <p class="text-[0.95rem] leading-[1.7] text-slate-600">Дашборд конверсій і ROI. Видно, де ллється і де працює — рішення на цифрах, не на здогадках.</p>
+      </article>
+
+      <!-- 6. Traffic — premium -->
+      <article class="card-hover relative rounded-[24px] p-7 lg:p-8 border border-slate-800/60 bg-gradient-to-br from-slate-950 to-slate-900 text-white shadow-[0_30px_70px_-20px_rgba(15,23,42,0.45)] anim-fade-up overflow-hidden" style="transition-delay:.3s;">
+        <div class="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-orange-500/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 opacity-[0.06] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0); background-size: 18px 18px;"></div>
+        <div class="relative">
+          <div class="flex items-center justify-between mb-5">
+            <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-white text-slate-950">
+              <iconify-icon icon="solar:rocket-bold" width="20"></iconify-icon>
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-300 text-[10px] font-mono-tech uppercase tracking-[0.18em]"><span class="w-1 h-1 rounded-full bg-orange-400"></span>Платні канали</span>
+          </div>
+          <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/15 text-[11px] font-mono-tech tracking-wider">
+              <iconify-icon icon="ri:meta-fill" width="14" class="text-blue-300"></iconify-icon>Meta Pixel + CAPI
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/15 text-[11px] font-mono-tech tracking-wider">
+              <iconify-icon icon="solar:target-bold" width="14" class="text-blue-300"></iconify-icon>аудиторії
+            </span>
+          </div>
+          <h3 class="font-display font-medium text-[1.2rem] tracking-[-0.02em] text-white mb-2">Трафік</h3>
+          <p class="text-[0.95rem] leading-[1.7] text-white/70">Налаштування реклами під твою воронку: Meta Pixel + CAPI, креативи, аудиторії, ретаргетинг. Веду кампанії, щоб ліди йшли стабільно.</p>
+          <div class="mt-5 pt-4 border-t border-white/10 italic font-serif-display text-sm text-orange-300/90">У пакеті «Преміум»</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANSFORMATION ============ -->
+<section id="transformation" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#0B1220] text-white overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,rgba(59,130,246,0.18),transparent_60%),radial-gradient(50%_50%_at_85%_100%,rgba(251,146,60,0.12),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0); background-size: 22px 22px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="text-center mb-12 lg:mb-16 anim-trigger">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl px-4 py-2 mb-6 anim-fade-up">
+        <span class="w-1.5 h-1.5 rounded-full bg-orange-400 pulse-dot"></span>
+        <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/80">Один момент · два режими</span>
+      </div>
+      <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-white">
+        <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Від хаосу</span></span><br>
+        <span class="anim-wrap"><span class="anim-line font-light text-white/55" style="transition-delay:.2s">до системи</span></span>
+      </h2>
+      <p class="mt-4 text-white/55 anim-fade-up max-w-md mx-auto" style="transition-delay:.3s;">Один момент — два режими. Перемкни і подивись.</p>
+    </div>
+
+    <!-- Toggle -->
+    <div class="flex justify-center mb-10 anim-fade-up" style="transition-delay:.4s;">
+      <div id="mode-toggle" class="mode-toggle inline-flex items-center gap-4 px-2 py-2 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-xl">
+        <button data-mode="manual" class="mode-btn px-4 py-2 rounded-full text-[12px] font-mono-tech uppercase tracking-[0.18em] transition is-active" style="background: rgba(255,255,255,0.08); color: white;">Вручну</button>
+        <button class="relative w-14 h-7 rounded-full border border-white/15 track" aria-hidden="true">
+          <span class="thumb absolute top-[1.5px] left-[1.5px] w-[22px] h-[22px] rounded-full"></span>
+        </button>
+        <button data-mode="auto" class="mode-btn px-4 py-2 rounded-full text-[12px] font-mono-tech uppercase tracking-[0.18em] text-white/55 hover:text-white transition">Автоматизація</button>
+      </div>
+    </div>
+
+    <!-- Devices -->
+    <div class="anim-fade-up" style="transition-delay:.5s;">
+      <!-- iPad (desktop) -->
+      <div class="hidden lg:block mx-auto" style="max-width: 980px;">
+        <div class="tablet-shell">
+          <div class="tablet-screen aspect-[16/10]">
+            <!-- Manual mode -->
+            <div class="mode-panel mode-manual absolute inset-0 grid grid-cols-[300px_1fr] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white" style="transition: opacity .5s ease;">
+              <!-- left -->
+              <div class="border-r border-white/10 flex flex-col">
+                <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                  <div class="flex items-center gap-2"><iconify-icon icon="ri:instagram-fill" width="16" class="text-pink-400"></iconify-icon><span class="text-[13px] font-medium">Direct</span></div>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-mono-tech tracking-wider">12 нових</span>
+                </div>
+                <div class="flex-1 overflow-hidden p-2 space-y-1">
+                  <div class="p-2.5 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[12px] truncate">@alex_new</div><div class="text-[10px] text-white/50 truncate">А скільки коштує?</div></div><span class="text-[9px] font-mono-tech text-white/45">15хв</span></div>
+                  <div class="p-2.5 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[12px] truncate">@maria_z</div><div class="text-[10px] text-white/50 truncate">Цікавить курс</div></div><span class="text-[9px] font-mono-tech text-white/45">38хв</span></div>
+                  <div class="p-2.5 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[12px] truncate">@ihor_e</div><div class="text-[10px] text-white/50 truncate">Можна записатися?</div></div><span class="text-[9px] font-mono-tech text-white/45">1год</span></div>
+                  <div class="p-2.5 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[12px] truncate">@olha_v</div><div class="text-[10px] text-white/50 truncate">Чи можна частинами?</div></div><span class="text-[9px] font-mono-tech text-white/45">2год</span></div>
+                </div>
+                <div class="px-4 py-2 border-t border-white/10 text-[10px] font-mono-tech uppercase tracking-[0.18em] text-rose-300 flex items-center gap-2">
+                  <span class="w-1 h-1 rounded-full bg-rose-400"></span>Чекає на відповідь — 15 хв
+                </div>
+              </div>
+              <!-- right -->
+              <div class="flex flex-col">
+                <div class="px-5 py-3 border-b border-white/10 flex items-center justify-between">
+                  <div class="text-[13px]"><span class="text-white">@alex_new</span><span class="text-white/40 ml-2 font-mono-tech text-[10px] tracking-wider">щойно</span></div>
+                  <iconify-icon icon="solar:menu-dots-bold" width="16" class="text-white/40"></iconify-icon>
+                </div>
+                <div class="flex-1 p-5 flex flex-col justify-end gap-3">
+                  <div class="self-start max-w-[60%] px-3 py-2 rounded-2xl rounded-bl-sm bg-white/8 border border-white/5 text-[13px]">А скільки коштує?</div>
+                  <div class="self-start inline-flex items-center gap-1 px-3 py-2 rounded-2xl bg-white/5 border border-white/5">
+                    <span class="typing-dot w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                    <span class="typing-dot w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                    <span class="typing-dot w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                  </div>
+                  <div class="text-[10px] font-mono-tech uppercase tracking-[0.18em] text-white/40 self-end">Друкуєш...</div>
+                </div>
+              </div>
+            </div>
+            <!-- Auto mode -->
+            <div class="mode-panel mode-auto absolute inset-0 grid grid-cols-[280px_1fr] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white opacity-0 pointer-events-none" style="transition: opacity .5s ease;">
+              <div class="border-r border-white/10 p-5">
+                <div class="flex items-center justify-between mb-5">
+                  <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/55">Сьогодні</span>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono-tech tracking-wider">
+                    <span class="w-1 h-1 rounded-full bg-emerald-400 pulse-dot"></span>Active
+                  </span>
+                </div>
+                <div class="space-y-5">
+                  <div>
+                    <div class="font-display text-3xl font-light tracking-[-0.04em]">12</div>
+                    <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45">Ліди</div>
+                  </div>
+                  <div>
+                    <div class="font-display text-3xl font-light tracking-[-0.04em]">3</div>
+                    <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45">Продажі</div>
+                  </div>
+                  <div>
+                    <div class="font-display text-3xl font-light tracking-[-0.04em] text-emerald-300">$891</div>
+                    <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/45">Дохід сьогодні</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <div class="px-5 py-3 border-b border-white/10 flex items-center justify-between">
+                  <div class="flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/65">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
+                    Live · Auto-flow · Online
+                  </div>
+                  <span class="font-mono-tech text-[10px] tracking-wider text-white/40">7 каналів</span>
+                </div>
+                <div class="flex-1 p-5 space-y-3">
+                  <div class="live-row flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10">
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-emerald-500/15 border border-emerald-500/30"><iconify-icon icon="solar:dollar-minimalistic-bold" width="14" class="text-emerald-300"></iconify-icon></span>
+                      <div><div class="text-[13px]">Олена К.</div><div class="text-[11px] text-white/50">Курс «Експерт-Системи»</div></div>
+                    </div>
+                    <div class="text-right"><div class="text-[13px] text-emerald-300">$497</div><div class="text-[10px] font-mono-tech text-white/40">14:23</div></div>
+                  </div>
+                  <div class="live-row flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10" style="animation-delay:.2s;">
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-500/15 border border-blue-500/30"><iconify-icon icon="solar:refresh-bold" width="14" class="text-blue-300"></iconify-icon></span>
+                      <div><div class="text-[13px]">Павло С.</div><div class="text-[11px] text-white/50">Місячна підписка</div></div>
+                    </div>
+                    <div class="text-right"><div class="text-[13px] text-emerald-300">$297</div><div class="text-[10px] font-mono-tech text-white/40">13:45</div></div>
+                  </div>
+                  <div class="live-row flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10" style="animation-delay:.4s;">
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-orange-500/15 border border-orange-500/30"><iconify-icon icon="solar:archive-down-minimlistic-bold" width="14" class="text-orange-300"></iconify-icon></span>
+                      <div><div class="text-[13px]">Анна Б.</div><div class="text-[11px] text-white/50">Доступ до архіву</div></div>
+                    </div>
+                    <div class="text-right"><div class="text-[13px] text-emerald-300">$147</div><div class="text-[10px] font-mono-tech text-white/40">12:18</div></div>
+                  </div>
+                </div>
+                <div class="px-5 py-2 border-t border-white/10 text-[10px] font-mono-tech uppercase tracking-[0.18em] text-emerald-300 flex items-center gap-2">
+                  <iconify-icon icon="solar:check-circle-bold" width="12"></iconify-icon>Доступ видано автоматично
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iPhone (mobile) -->
+      <div class="lg:hidden mx-auto" style="max-width: 320px;">
+        <div class="phone-shell">
+          <div class="phone-screen aspect-[9/19.5]">
+            <div class="dynamic-island"></div>
+            <div class="absolute top-2 right-5 z-20 text-[10px] font-mono-tech text-white/80">9:41</div>
+
+            <!-- Manual -->
+            <div class="mode-panel mode-manual absolute inset-0 pt-12 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white" style="transition: opacity .5s ease;">
+              <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2"><iconify-icon icon="ri:instagram-fill" width="14" class="text-pink-400"></iconify-icon><span class="text-[12px] font-medium">Direct</span></div>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[9px] font-mono-tech tracking-wider">12 нових</span>
+              </div>
+              <div class="p-3 space-y-2 flex-1">
+                <div class="p-2 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[11px] truncate">@alex_new</div><div class="text-[9px] text-white/50 truncate">А скільки коштує?</div></div><span class="text-[8px] font-mono-tech text-white/45">15хв</span></div>
+                <div class="p-2 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[11px] truncate">@maria_z</div><div class="text-[9px] text-white/50 truncate">Доброго дня, цікавить курс</div></div><span class="text-[8px] font-mono-tech text-white/45">38хв</span></div>
+                <div class="p-2 rounded-lg bg-white/[0.07] border border-white/5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><div class="flex-1 min-w-0"><div class="text-[11px] truncate">@ihor_e</div><div class="text-[9px] text-white/50 truncate">Можна записатися?</div></div><span class="text-[8px] font-mono-tech text-white/45">1год</span></div>
+              </div>
+              <div class="absolute bottom-3 inset-x-3 px-3 py-2 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-300 text-[10px] font-mono-tech uppercase tracking-[0.18em] flex items-center justify-center gap-2">
+                <span class="w-1 h-1 rounded-full bg-rose-400 pulse-dot"></span>Чекають на відповідь
+              </div>
+            </div>
+
+            <!-- Auto -->
+            <div class="mode-panel mode-auto absolute inset-0 pt-12 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white opacity-0 pointer-events-none" style="transition: opacity .5s ease;">
+              <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2"><iconify-icon icon="solar:dollar-minimalistic-bold" width="14" class="text-emerald-400"></iconify-icon><span class="text-[12px] font-medium">Нова оплата</span></div>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-mono-tech tracking-wider">Успіх</span>
+              </div>
+              <div class="p-5 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-4">
+                  <iconify-icon icon="solar:check-circle-bold" width="32" class="text-emerald-400"></iconify-icon>
+                </div>
+                <div class="font-display text-3xl font-light tracking-[-0.04em]">$497</div>
+                <div class="mt-1 text-[11px] text-white/70">Курс «Експерт-Системи»</div>
+                <div class="mt-3 text-[10px] font-mono-tech uppercase tracking-[0.18em] text-white/45">Олена К. · через бот</div>
+              </div>
+              <div class="absolute bottom-3 inset-x-3 px-3 py-2 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-mono-tech uppercase tracking-[0.18em] flex items-center justify-center gap-2">
+                <iconify-icon icon="solar:check-circle-bold" width="12"></iconify-icon>Доступ видано автоматично
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASE STUDY ============ -->
+<section id="case" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#F4F8FC] overflow-hidden border-t border-slate-200/60">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(60%_50%_at_20%_20%,rgba(59,130,246,0.10),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.6) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="max-w-3xl mb-12 lg:mb-16 anim-trigger">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/70 backdrop-blur-xl px-4 py-2 shadow-sm mb-6 anim-fade-up">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+        <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-blue-700">Кейс · Tania Lav</span>
+      </div>
+      <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-slate-950">
+        <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Як це працює</span></span><br>
+        <span class="anim-wrap"><span class="anim-line font-light text-slate-500" style="transition-delay:.2s">на практиці</span></span>
+      </h2>
+      <p class="mt-5 text-[1rem] sm:text-[1.06rem] leading-[1.75] text-slate-600 anim-fade-up max-w-2xl" style="transition-delay:.3s;">
+        Tania Lav — On-Camera Brand для експертів. 10K+ аудиторія, але без системи продажів. Зібрали воронку за 7 днів.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 anim-trigger">
+
+      <!-- Photo placeholder card -->
+      <div class="anim-fade-up">
+        <div class="relative h-full min-h-[480px] rounded-[28px] overflow-hidden border border-slate-200 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.25)]"
+             style="background: linear-gradient(160deg, #1E293B 0%, #0F172A 50%, #1E3A8A 100%);">
+          <!-- ambient -->
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(96,165,250,0.30),transparent_50%),radial-gradient(circle_at_70%_75%,rgba(251,146,60,0.20),transparent_50%)]"></div>
+          <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.5) 1px, transparent 0); background-size: 16px 16px;"></div>
+
+          <!-- top badge -->
+          <div class="absolute top-5 right-5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 text-white text-[11px] font-mono-tech uppercase tracking-[0.18em]">
+            <iconify-icon icon="solar:users-group-rounded-bold" width="14"></iconify-icon>10K+ підписників
+          </div>
+
+          <!-- play btn -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <button aria-label="Дивитися відеовідгук (скоро)" class="group flex flex-col items-center gap-3">
+              <span class="relative w-20 h-20 rounded-full bg-white/95 flex items-center justify-center shadow-[0_20px_60px_rgba(0,0,0,0.4)] group-hover:scale-105 transition">
+                <iconify-icon icon="solar:play-bold" width="28" class="text-slate-950 translate-x-0.5"></iconify-icon>
+                <span class="absolute inset-0 rounded-full border border-white/30 animate-ping opacity-60"></span>
+              </span>
+              <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/70">відеовідгук скоро</span>
+            </button>
+          </div>
+
+          <!-- identity bottom -->
+          <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950 to-transparent">
+            <div class="font-display text-2xl text-white">Tania Lav</div>
+            <div class="text-[12px] font-mono-tech tracking-wider text-white/55 mt-1">@lav_tania · On-Camera Brand для експертів</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results card -->
+      <div class="anim-fade-up" style="transition-delay:.15s;">
+        <div class="relative h-full rounded-[28px] border border-white/65 bg-white/65 backdrop-blur-xl p-7 lg:p-9 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.18)] overflow-hidden">
+          <div class="absolute -top-16 -right-12 w-60 h-60 rounded-full bg-blue-100/70 blur-3xl pointer-events-none"></div>
+
+          <div class="relative">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-500 text-white text-[10px] font-mono-tech uppercase tracking-[0.18em] shadow-[0_8px_20px_rgba(251,146,60,0.4)]">
+              <iconify-icon icon="solar:bolt-bold" width="12"></iconify-icon>Зроблено за 7 днів · стандарт 14
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              <span class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">Стратегія</span>
+              <span class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">Лендинг</span>
+              <span class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">Чат-бот</span>
+              <span class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">Прийом оплат</span>
+              <span class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">Автомат видача</span>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-200">
+              <div class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500 mb-5">Через 2–3 тижні після запуску</div>
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <div class="font-display text-4xl lg:text-5xl font-light tracking-[-0.04em] stat-num-ink">18</div>
+                  <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-500 mt-1">клієнтів на інтенсив</div>
+                </div>
+                <div>
+                  <div class="font-display text-4xl lg:text-5xl font-light tracking-[-0.04em] stat-num-ink">4</div>
+                  <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-500 mt-1">на індивідуальну</div>
+                </div>
+                <div>
+                  <div class="font-display text-4xl lg:text-5xl font-light tracking-[-0.04em] stat-num-ink">$990</div>
+                  <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-500 mt-1">окупилось з перших продажів</div>
+                </div>
+              </div>
+            </div>
+
+            <blockquote class="mt-8 pl-5 relative border-l-2 border-blue-500">
+              <p class="font-serif-display text-[1.1rem] lg:text-[1.2rem] leading-[1.6] text-slate-800 italic">
+                «Тепер я можу просто робити контент і не переживати, що забула комусь відповісти або відправити посилання. Система працює за мене.»
+              </p>
+              <footer class="mt-3 text-[12px] font-mono-tech uppercase tracking-[0.22em] text-slate-500">— Tania Lav · через 3 тижні після запуску</footer>
+            </blockquote>
+
+            <a href="#final-cta" class="mt-8 cta-beam cta-beam-light inline-flex h-12 items-center justify-center rounded-full px-6 text-[13px] font-medium text-slate-950">
+              <span class="relative z-10 inline-flex items-center gap-2">
+                Хочу такий самий результат
+                <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#EAF1F8] overflow-hidden border-t border-slate-200/60">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(59,130,246,0.10),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.6) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="max-w-3xl mb-12 lg:mb-16 anim-trigger">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/70 backdrop-blur-xl px-4 py-2 shadow-sm mb-6 anim-fade-up">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+        <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-blue-700">Тарифи · 3 рівні</span>
+      </div>
+      <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-slate-950">
+        <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Обери свій</span></span><br>
+        <span class="anim-wrap"><span class="anim-line font-light text-slate-500" style="transition-delay:.2s"><span id="tw-text" class="text-slate-950 font-medium">формат роботи</span><span class="tw-cursor text-blue-500 font-medium">|</span></span></span>
+      </h2>
+      <p class="mt-5 text-[1rem] sm:text-[1.06rem] leading-[1.75] text-slate-600 anim-fade-up max-w-xl" style="transition-delay:.3s;">
+        Три рівні системи продажу. Вище — більше зроблено за тебе.
+      </p>
+    </div>
+
+    <!-- Mobile tab selector -->
+    <div class="md:hidden flex justify-center mb-6 anim-fade-up">
+      <div class="inline-flex p-1 rounded-full bg-white/70 border border-slate-200 backdrop-blur-md">
+        <button class="price-tab is-active px-4 py-2 rounded-full text-[12px] font-mono-tech uppercase tracking-[0.18em]" data-tier="0">Старт</button>
+        <button class="price-tab px-4 py-2 rounded-full text-[12px] font-mono-tech uppercase tracking-[0.18em] text-slate-600" data-tier="1">Оптимал</button>
+        <button class="price-tab px-4 py-2 rounded-full text-[12px] font-mono-tech uppercase tracking-[0.18em] text-slate-600" data-tier="2">Max</button>
+      </div>
+    </div>
+
+    <!-- Tariff cards -->
+    <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 anim-trigger">
+
+      <!-- 1. Fundament -->
+      <article data-card="0" class="price-card card-hover relative rounded-[28px] p-7 lg:p-8 border border-white/65 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-slate-100 blur-3xl pointer-events-none"></div>
+        <div class="relative">
+          <div class="md:hidden mb-4">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-900 text-white text-[10px] font-mono-tech uppercase tracking-[0.18em]">Старт</span>
+          </div>
+          <div class="flex items-baseline justify-between mb-5">
+            <h3 class="font-display text-[1.5rem] tracking-[-0.03em] font-medium">Фундамент</h3>
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-400">01</span>
+          </div>
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="font-display text-5xl font-light tracking-[-0.04em] text-slate-950">$495</span>
+          </div>
+          <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-500 mb-6">5–7 днів · точка входу</div>
+          <p class="hidden md:block text-[0.95rem] leading-[1.7] text-slate-600 mb-6">Цифрова присутність експерта.</p>
+          <p class="md:hidden text-[0.95rem] leading-[1.7] text-slate-600 mb-6">Точка входу для реклами і збір контактів. Якщо продукт є, але немає посадки і збору.</p>
+
+          <!-- mobile metric row -->
+          <div class="md:hidden grid grid-cols-3 gap-2 mb-6 text-center">
+            <div class="rounded-xl bg-white border border-slate-200 p-2"><div class="text-[10px] font-mono-tech text-slate-500 uppercase tracking-wider">Терміни</div><div class="text-[13px] font-medium mt-1">5–7</div></div>
+            <div class="rounded-xl bg-white border border-slate-200 p-2"><div class="text-[10px] font-mono-tech text-slate-500 uppercase tracking-wider">Модулі</div><div class="text-[13px] font-medium mt-1">3</div></div>
+            <div class="rounded-xl bg-white border border-slate-200 p-2"><div class="text-[10px] font-mono-tech text-slate-500 uppercase tracking-wider">Реклама</div><div class="text-[13px] font-medium mt-1 text-slate-400">—</div></div>
+          </div>
+
+          <ul class="space-y-3 mb-7">
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-500 shrink-0 mt-0.5"></iconify-icon>Стратегія і позиціонування</li>
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-500 shrink-0 mt-0.5"></iconify-icon>Посадкова сторінка</li>
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-500 shrink-0 mt-0.5"></iconify-icon>Чат-бот для збору лідів</li>
+          </ul>
+
+          <a href="#final-cta" class="block w-full text-center px-5 py-3.5 rounded-full bg-white border border-slate-300 text-slate-900 text-[13px] font-medium hover:bg-slate-50 transition">
+            Записатись на розбір
+          </a>
+        </div>
+      </article>
+
+      <!-- 2. Generator (recommended) -->
+      <article data-card="1" class="price-card card-hover relative rounded-[28px] p-7 lg:p-8 border border-slate-800/60 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white shadow-[0_30px_80px_-20px_rgba(15,23,42,0.5)] anim-fade-up overflow-hidden md:scale-[1.02] md:-my-2" style="transition-delay:.08s;">
+        <div class="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-blue-500/25 blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 opacity-[0.07] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0); background-size: 18px 18px;"></div>
+        <div class="relative">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500 text-white text-[10px] font-mono-tech uppercase tracking-[0.18em] shadow-[0_8px_20px_rgba(251,146,60,0.45)]">
+              <iconify-icon icon="solar:star-bold" width="11"></iconify-icon>Оптимальний
+            </span>
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/40">02</span>
+          </div>
+
+          <div class="flex items-baseline justify-between mb-5">
+            <h3 class="font-display text-[1.5rem] tracking-[-0.03em] font-medium">Генератор</h3>
+          </div>
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="font-display text-5xl font-light tracking-[-0.04em] stat-num">$990</span>
+          </div>
+          <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-white/55 mb-6">14 днів · під ключ</div>
+          <p class="hidden md:block text-[0.95rem] leading-[1.7] text-white/70 mb-6">Повна воронка — від кліку до оплати.</p>
+          <p class="md:hidden text-[0.95rem] leading-[1.7] text-white/70 mb-6">Повна воронка під ключ — від рекламного кліку до автоматичної видачі продукту.</p>
+
+          <div class="md:hidden grid grid-cols-3 gap-2 mb-6 text-center">
+            <div class="rounded-xl bg-white/[0.06] border border-white/10 p-2"><div class="text-[10px] font-mono-tech text-white/50 uppercase tracking-wider">Терміни</div><div class="text-[13px] font-medium mt-1">14</div></div>
+            <div class="rounded-xl bg-white/[0.06] border border-white/10 p-2"><div class="text-[10px] font-mono-tech text-white/50 uppercase tracking-wider">Модулі</div><div class="text-[13px] font-medium mt-1">7</div></div>
+            <div class="rounded-xl bg-white/[0.06] border border-white/10 p-2"><div class="text-[10px] font-mono-tech text-white/50 uppercase tracking-wider">Реклама</div><div class="text-[13px] font-medium mt-1 text-white/40">—</div></div>
+          </div>
+
+          <ul class="space-y-3 mb-7">
+            <li class="flex items-start gap-3 text-[14px] text-white/85"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-300 shrink-0 mt-0.5"></iconify-icon>Все з «Фундамент»</li>
+            <li class="flex items-start gap-3 text-[14px] text-white/85"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-300 shrink-0 mt-0.5"></iconify-icon>Упаковка продукту</li>
+            <li class="flex items-start gap-3 text-[14px] text-white/85"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-300 shrink-0 mt-0.5"></iconify-icon>Автоматичний прийом оплат</li>
+            <li class="flex items-start gap-3 text-[14px] text-white/85"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-300 shrink-0 mt-0.5"></iconify-icon>Автоматична видача</li>
+            <li class="flex items-start gap-3 text-[14px] text-white/85"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-blue-300 shrink-0 mt-0.5"></iconify-icon>Підключені інтеграції</li>
+          </ul>
+
+          <a href="#final-cta" class="cta-beam block w-full text-center px-5 py-3.5 rounded-full text-[13px] font-medium text-white">
+            <span class="relative z-10">Записатись на розбір</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- 3. Premium -->
+      <article data-card="2" class="price-card card-hover relative rounded-[28px] p-7 lg:p-8 border border-white/65 bg-white/70 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] anim-fade-up overflow-hidden" style="transition-delay:.16s;">
+        <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-orange-100/70 blur-3xl pointer-events-none"></div>
+        <div class="relative">
+          <div class="md:hidden mb-4">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-orange-500 text-white text-[10px] font-mono-tech uppercase tracking-[0.18em]">Max</span>
+          </div>
+          <div class="flex items-baseline justify-between mb-5">
+            <h3 class="font-display text-[1.5rem] tracking-[-0.03em] font-medium">Преміум</h3>
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-400">03</span>
+          </div>
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="font-display text-5xl font-light tracking-[-0.04em] text-slate-950">$1,690</span>
+          </div>
+          <div class="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-slate-500 mb-6">14–21 днів · з трафіком</div>
+          <p class="hidden md:block text-[0.95rem] leading-[1.7] text-slate-600 mb-6">Повна воронка + рекламний трафік.</p>
+          <p class="md:hidden text-[0.95rem] leading-[1.7] text-slate-600 mb-6">Повна воронка + ведення реклами перший місяць. Без двох підрядників.</p>
+
+          <div class="md:hidden grid grid-cols-3 gap-2 mb-6 text-center">
+            <div class="rounded-xl bg-white border border-slate-200 p-2"><div class="text-[10px] font-mono-tech text-slate-500 uppercase tracking-wider">Терміни</div><div class="text-[13px] font-medium mt-1">14–21</div></div>
+            <div class="rounded-xl bg-white border border-slate-200 p-2"><div class="text-[10px] font-mono-tech text-slate-500 uppercase tracking-wider">Модулі</div><div class="text-[13px] font-medium mt-1">11</div></div>
+            <div class="rounded-xl bg-white border border-slate-200 p-2"><div class="text-[10px] font-mono-tech text-slate-500 uppercase tracking-wider">Реклама</div><div class="text-[13px] font-medium mt-1 text-emerald-600">✓</div></div>
+          </div>
+
+          <ul class="space-y-3 mb-7">
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-orange-500 shrink-0 mt-0.5"></iconify-icon>Все з «Генератор»</li>
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-orange-500 shrink-0 mt-0.5"></iconify-icon>Meta Pixel + CAPI</li>
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-orange-500 shrink-0 mt-0.5"></iconify-icon>Цільові аудиторії</li>
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-orange-500 shrink-0 mt-0.5"></iconify-icon>Рекламні креативи (3)</li>
+            <li class="flex items-start gap-3 text-[14px] text-slate-700"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-orange-500 shrink-0 mt-0.5"></iconify-icon>Кампанії — перший місяць</li>
+          </ul>
+
+          <a href="#final-cta" class="block w-full text-center px-5 py-3.5 rounded-full bg-slate-950 text-white text-[13px] font-medium hover:bg-slate-800 transition">
+            Записатись на розбір
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#F4F8FC] overflow-hidden border-t border-slate-200/60">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(60%_50%_at_80%_20%,rgba(59,130,246,0.10),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.6) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-[440px_1fr] gap-8 lg:gap-14 items-start anim-trigger">
+
+      <!-- Photo card -->
+      <div class="anim-fade-up">
+        <div class="relative aspect-[4/5] rounded-[28px] overflow-hidden border border-slate-200 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.3)]"
+             style="background: linear-gradient(160deg, #1E293B 0%, #0B1220 60%, #0F172A 100%);">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_35%_30%,rgba(96,165,250,0.30),transparent_55%),radial-gradient(circle_at_70%_80%,rgba(251,146,60,0.20),transparent_55%)]"></div>
+          <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.5) 1px, transparent 0); background-size: 16px 16px;"></div>
+
+          <div class="absolute top-5 right-5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 text-white text-[11px] font-mono-tech uppercase tracking-[0.18em]">
+            <iconify-icon icon="solar:layers-bold" width="14"></iconify-icon>Funnel architect
+          </div>
+
+          <!-- monogram emblem -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="font-serif-display text-[10rem] leading-none text-white/8 tracking-[-0.06em] font-light select-none">A·R</div>
+          </div>
+
+          <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950 to-transparent">
+            <div class="font-display text-xl text-white">Олександр Роменський</div>
+            <div class="text-[12px] font-mono-tech tracking-wider text-white/55 mt-1">Маркетинг-архітектор · 7+ років</div>
+          </div>
+        </div>
+
+        <!-- Stat chips -->
+        <div class="mt-5 flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">
+            <iconify-icon icon="solar:hourglass-line-bold" width="13" class="text-blue-500"></iconify-icon>7+ років у воронках
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">
+            <iconify-icon icon="solar:global-bold" width="13" class="text-blue-500"></iconify-icon>5 країн · UA · US · CA · EG · GE
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] font-mono-tech tracking-wider text-slate-700">
+            <iconify-icon icon="solar:layers-bold" width="13" class="text-blue-500"></iconify-icon>Коучи · B2B · e-commerce
+          </span>
+        </div>
+      </div>
+
+      <!-- Bio -->
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/70 backdrop-blur-xl px-4 py-2 shadow-sm mb-6 anim-fade-up">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+          <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-blue-700">Про мене</span>
+        </div>
+        <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-slate-950">
+          <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Олександр</span></span><br>
+          <span class="anim-wrap"><span class="anim-line font-light text-slate-500" style="transition-delay:.2s">Роменський</span></span>
+        </h2>
+        <p class="mt-5 text-[1rem] sm:text-[1.06rem] leading-[1.75] text-slate-600 anim-fade-up max-w-2xl" style="transition-delay:.3s;">
+          7 років збираю воронки продажів. AI робить це точніше і швидше.
+        </p>
+
+        <div id="bio-body" class="mt-8 space-y-5 text-[1rem] sm:text-[1.04rem] leading-[1.75] text-slate-700 max-w-2xl">
+          <p class="anim-fade-up" style="transition-delay:.4s;">
+            Освіта — актор театру. Сцена цікавила менше, ніж режисура: розкладати мотивацію, відчувати аудиторію, бачити, що людині насправді потрібно. В маркетингу ці навички працюють як ніде.
+          </p>
+          <p class="anim-fade-up bio-extra md:!opacity-100 md:!translate-y-0" style="transition-delay:.5s;">
+            7 років збираю воронки — лендинги, чат-боти, оплати, аналітика. AI у мене не замість досвіду, а його підсилювач: робить кожен крок швидше і точніше.
+          </p>
+          <p class="anim-fade-up bio-extra md:!opacity-100 md:!translate-y-0" style="transition-delay:.6s;">
+            Сильні експерти застрягають не на експертизі, а на упаковці. Знання є, аудиторія є — а системи, що з'єднує з людьми, нема. Будую цей міст.
+          </p>
+        </div>
+
+        <button id="bio-toggle" class="md:hidden mt-4 inline-flex items-center gap-1.5 text-[13px] font-mono-tech uppercase tracking-[0.18em] text-blue-700">
+          <span>Читати далі</span>
+          <iconify-icon icon="solar:alt-arrow-down-linear" width="14" class="bio-arrow transition"></iconify-icon>
+        </button>
+
+        <!-- Socials -->
+        <div class="mt-10 anim-fade-up" style="transition-delay:.7s;">
+          <div class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-500 mb-3">Більше про мене:</div>
+          <div class="flex flex-wrap gap-2.5">
+            <a href="https://www.linkedin.com/in/alex-romenskyi/" aria-label="LinkedIn" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition">
+              <iconify-icon icon="ri:linkedin-fill" width="18" class="text-[#0A66C2]"></iconify-icon>
+            </a>
+            <a href="https://www.instagram.com/romensky.ua/" aria-label="Instagram UA" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-slate-200 hover:border-pink-300 hover:bg-pink-50 transition">
+              <iconify-icon icon="ri:instagram-fill" width="18" class="text-pink-500"></iconify-icon>
+              <span class="sr-only">UA</span>
+            </a>
+            <a href="https://www.instagram.com/romensky.pro/" aria-label="Instagram EN" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-slate-200 hover:border-pink-300 hover:bg-pink-50 transition">
+              <iconify-icon icon="ri:instagram-fill" width="18" class="text-pink-500"></iconify-icon>
+              <span class="sr-only">EN</span>
+            </a>
+            <a href="https://www.facebook.com/Alex.Romenskyi" aria-label="Facebook" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition">
+              <iconify-icon icon="ri:facebook-fill" width="18" class="text-[#1877F2]"></iconify-icon>
+            </a>
+          </div>
+
+          <a href="#final-cta" class="mt-7 cta-beam cta-beam-light inline-flex h-12 items-center justify-center rounded-full px-6 text-[13px] font-medium text-slate-950">
+            <span class="relative z-10 inline-flex items-center gap-2">
+              Записатись на розбір
+              <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="relative py-24 lg:py-32 px-6 md:px-8 lg:px-12 bg-[#EAF1F8] overflow-hidden border-t border-slate-200/60">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(50%_50%_at_20%_0%,rgba(59,130,246,0.08),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.6) 1px, transparent 0); background-size: 24px 24px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-5xl mx-auto">
+    <div class="max-w-2xl mb-12 lg:mb-16 anim-trigger">
+      <div class="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/70 backdrop-blur-xl px-4 py-2 shadow-sm mb-6 anim-fade-up">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+        <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-blue-700">FAQ · 7</span>
+      </div>
+      <h2 class="font-display text-[2.2rem] sm:text-[2.7rem] lg:text-[3.4rem] leading-[1.02] tracking-[-0.04em] text-slate-950">
+        <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Питання, що</span></span><br>
+        <span class="anim-wrap"><span class="anim-line font-light text-slate-500" style="transition-delay:.2s">задають найчастіше</span></span>
+      </h2>
+      <p class="mt-5 text-[1rem] sm:text-[1.06rem] leading-[1.75] text-slate-600 anim-fade-up" style="transition-delay:.3s;">
+        Сім найчастіших — від «це безкоштовно?» до «що з рекламою?».
+      </p>
+    </div>
+
+    <div class="space-y-3 anim-trigger">
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">01</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">Що таке розбір і чи це справді безкоштовно?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            Так, безкоштовно. Це коротка зустріч 20–30 хвилин: дивимось на твій продукт, аудиторію та як зараз проходять продажі. Я підкажу, де «втікають» гроші та що варто автоматизувати в першу чергу. Без зобов'язань — ти вирішуєш, чи рухатись далі.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden" style="transition-delay:.05s;">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">02</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">Я не технар і не розуміюся на ботах. Це проблема?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            Ні. Воронку будуємо разом: ти даєш зміст (пропозиція, уроки, ціни), я — структуру та технічну реалізацію. Після запуску залишаються зрозумілі інструкції, щоб ти міг користуватися системою без щоденної залежності від розробника.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden" style="transition-delay:.1s;">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">03</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">Скільки часу займає запуск?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            Залежить від обсягу матеріалів і обраного пакета. Орієнтир: Фундамент — 5–7 робочих днів, Генератор — 14, Преміум (з трафіком) — 14–21. Точні терміни фіксуємо після розбору.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden" style="transition-delay:.15s;">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">04</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">На яких платформах це працює?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            Telegram, Instagram, WhatsApp, TikTok, Messenger, Email і SMS — через ManyChat як основну платформу автоматизації. Якщо потрібен інший канал або власна логіка — обговорюємо на розборі.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden" style="transition-delay:.2s;">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">05</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">Що якщо мені потрібна підтримка після запуску?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            У тарифах передбачені варіанти супроводу: $150/міс для Фундамента і $250/міс для Генератора чи Преміума. Деталі — у блоці з тарифами; після запуску ти не залишаєшся «наодинці з ботом».
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden" style="transition-delay:.25s;">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">06</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">А ти запускаєш таргетовану рекламу?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            Так — у пакеті Преміум вже включено налаштування Meta Pixel + CAPI, цільові аудиторії, перші 3 креативи і ведення кампаній перший місяць. Як окрема послуга поза пакетом — теж можливо: setup ~$300–500, ведення від $200/міс або 10–15% від рекламного бюджету.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item group rounded-2xl border border-white/65 bg-white/70 backdrop-blur-xl shadow-sm anim-fade-up overflow-hidden" style="transition-delay:.3s;">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer">
+          <div class="flex items-center gap-4">
+            <span class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-slate-400">07</span>
+            <h3 class="font-display text-[1.05rem] sm:text-[1.15rem] tracking-[-0.02em] text-slate-950 font-medium">Чи пишеш ти великі тексти — курси, книги, контент-плани під ключ?</h3>
+          </div>
+          <span class="faq-icon shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-700">
+            <iconify-icon icon="solar:add-circle-linear" width="18"></iconify-icon>
+          </span>
+        </summary>
+        <div class="faq-body px-6">
+          <div class="pl-10 pb-5 text-[0.97rem] leading-[1.75] text-slate-600 max-w-3xl">
+            Ні, я не беруся за копірайтинг великих форматів і не записую курси замість тебе. Контент продукту — твоя експертиза; я відповідаю за структуру, упаковку, посадкові, скрипти бота і автоматизацію. Якщо потрібен сильний копірайтер під твою нішу — можу порадити.
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <p class="text-center mt-10 text-[14px] text-slate-600 anim-fade-up">
+      Не знайшов відповіді? <a href="#final-cta" class="text-blue-700 font-medium underline underline-offset-4 hover:no-underline">Запитай на розборі</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section id="final-cta" class="relative py-28 lg:py-36 px-6 md:px-8 lg:px-12 overflow-hidden bg-[#070B16] text-white border-t border-slate-800">
+  <!-- atmospheric -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(59,130,246,0.25),transparent_60%),radial-gradient(60%_60%_at_50%_100%,rgba(251,146,60,0.15),transparent_60%)]"></div>
+    <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0); background-size: 22px 22px;"></div>
+    <!-- subtle stars -->
+    <svg class="absolute inset-0 w-full h-full opacity-[0.12]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="cta-stars" width="48" height="48" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="0.8" fill="white"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#cta-stars)"/>
+    </svg>
+  </div>
+
+  <div class="relative z-10 max-w-5xl mx-auto text-center anim-trigger">
+    <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl px-4 py-2 mb-7 anim-fade-up">
+      <span class="w-1.5 h-1.5 rounded-full bg-orange-400 pulse-dot"></span>
+      <span class="font-mono-tech text-[11px] uppercase tracking-[0.22em] text-white/85">Безкоштовний розбір · 30 хв</span>
+    </div>
+
+    <h2 class="font-display text-[2.4rem] sm:text-[3.2rem] lg:text-[4.6rem] leading-[1.0] tracking-[-0.045em] text-white">
+      <span class="anim-wrap"><span class="anim-line font-medium" style="transition-delay:.1s">Поговоримо про</span></span><br>
+      <span class="anim-wrap"><span class="anim-line font-light text-white/65" style="transition-delay:.2s">твою воронку?</span></span>
+    </h2>
+
+    <p class="mt-7 text-[1.04rem] sm:text-[1.12rem] leading-[1.75] text-white/65 anim-fade-up max-w-2xl mx-auto" style="transition-delay:.3s;">
+      Подивимось на твій продукт, аудиторію і де зараз «втікають» гроші. Без презентацій — конкретно по твоїй ситуації.
+    </p>
+
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 anim-fade-up" style="transition-delay:.4s;">
+      <a href="#" class="cta-beam group inline-flex h-14 items-center justify-center rounded-full px-7 text-[14px] font-medium text-white">
+        <span class="relative z-10 inline-flex items-center gap-2.5">
+          Записатися на безкоштовний розбір
+          <iconify-icon icon="solar:arrow-right-linear" width="18" class="transition-transform duration-300 group-hover:translate-x-1"></iconify-icon>
+        </span>
+      </a>
+      <a href="https://t.me/" target="_blank" rel="noopener" class="group inline-flex h-14 items-center justify-center rounded-full px-7 text-[14px] font-medium text-white border border-white/15 bg-white/[0.04] backdrop-blur-xl hover:bg-white/[0.08] transition">
+        <span class="inline-flex items-center gap-2.5">
+          <iconify-icon icon="ri:telegram-fill" width="18" class="text-[#229ED9]"></iconify-icon>
+          Або напиши в Telegram
+        </span>
+      </a>
+    </div>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] font-mono-tech uppercase tracking-[0.22em] text-white/45 anim-fade-up" style="transition-delay:.5s;">
+      <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-emerald-400"></span>30 хвилин</span>
+      <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-emerald-400"></span>Безкоштовно</span>
+      <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-emerald-400"></span>Без зобов&apos;язань</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative px-6 md:px-8 lg:px-12 py-14 bg-[#070B16] text-white/70 border-t border-white/10">
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+      <!-- brand -->
+      <div class="col-span-2">
+        <a href="#top" class="inline-flex items-center gap-2.5 mb-4">
+          <span class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-blue-400/30 bg-gradient-to-br from-blue-500/20 to-blue-600/10">
+            <svg viewBox="0 0 32 32" class="w-4 h-4 text-blue-400" fill="none">
+              <path d="M16 4 L26 12 L23 24 L9 24 L6 12 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <circle cx="16" cy="15" r="2.4" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="text-[16px] font-semibold tracking-[0.18em]">
+            <span class="text-white">CRAFT</span><span class="text-blue-400 ml-1">LIONS</span>
+          </span>
+        </a>
+        <p class="text-[14px] leading-[1.7] max-w-md text-white/55">
+          Допомагаю експертам перетворити знання на автоматизовану систему продажів.
+        </p>
+      </div>
+
+      <div>
+        <div class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/40 mb-4">Розділи</div>
+        <ul class="space-y-2.5 text-[14px]">
+          <li><a href="#pain" class="hover:text-white transition">Для кого</a></li>
+          <li><a href="#pricing" class="hover:text-white transition">Тарифи</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-white/40 mb-4">Більше</div>
+        <ul class="space-y-2.5 text-[14px]">
+          <li><a href="#case" class="hover:text-white transition">Кейс</a></li>
+          <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+      <p class="text-[12px] text-white/40 font-mono-tech tracking-wider">© <span id="copyright-year">2026</span> Усі права захищені.</p>
+      <p class="text-[11px] text-white/30 max-w-2xl md:text-right leading-[1.7]">
+        Назви та логотипи Telegram, Instagram, WhatsApp, TikTok, Messenger та ManyChat — торговельні знаки відповідних власників.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+  // Reveal observer
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.anim-trigger').forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('.anim-trigger').forEach(el => el.classList.add('is-visible'));
+    }
+
+    // Copyright year
+    const yearEl = document.getElementById('copyright-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileToggle && mobileMenu) {
+      mobileToggle.addEventListener('click', () => mobileMenu.classList.toggle('is-open'));
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('is-open')));
+    }
+
+    // Mode toggle (Transformation)
+    const modeToggle = document.getElementById('mode-toggle');
+    if (modeToggle) {
+      const btns = modeToggle.querySelectorAll('.mode-btn');
+      const panels = document.querySelectorAll('.mode-panel');
+      const setMode = (mode) => {
+        btns.forEach(b => {
+          const isActive = b.dataset.mode === mode;
+          b.classList.toggle('is-active', isActive);
+          b.style.background = isActive ? 'rgba(255,255,255,0.08)' : 'transparent';
+          b.style.color = isActive ? 'white' : 'rgba(255,255,255,0.55)';
+        });
+        modeToggle.classList.toggle('is-auto', mode === 'auto');
+        panels.forEach(p => {
+          const isAuto = p.classList.contains('mode-auto');
+          const show = (mode === 'auto' && isAuto) || (mode === 'manual' && !isAuto);
+          p.style.opacity = show ? '1' : '0';
+          p.style.pointerEvents = show ? 'auto' : 'none';
+        });
+      };
+      btns.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+      // Track click toggles
+      const track = modeToggle.querySelector('.track');
+      if (track) track.addEventListener('click', () => {
+        const isAuto = modeToggle.classList.contains('is-auto');
+        setMode(isAuto ? 'manual' : 'auto');
+      });
+    }
+
+    // Typewriter heading (Pricing)
+    const tw = document.getElementById('tw-text');
+    if (tw) {
+      const words = ['формат роботи', 'шлях до масштабу', 'рівень системи'];
+      let wi = 0, ci = 0, deleting = false;
+      const tick = () => {
+        const current = words[wi];
+        if (!deleting) {
+          ci++;
+          tw.textContent = current.slice(0, ci);
+          if (ci === current.length) {
+            deleting = true;
+            setTimeout(tick, 1800);
+            return;
+          }
+          setTimeout(tick, 60 + Math.random() * 40);
+        } else {
+          ci--;
+          tw.textContent = current.slice(0, ci);
+          if (ci === 0) {
+            deleting = false;
+            wi = (wi + 1) % words.length;
+            setTimeout(tick, 200);
+            return;
+          }
+          setTimeout(tick, 32);
+        }
+      };
+      setTimeout(tick, 800);
+    }
+
+    // Pricing tabs (mobile)
+    const priceTabs = document.querySelectorAll('.price-tab');
+    const priceCards = document.querySelectorAll('.price-card');
+    if (priceTabs.length) {
+      const setTier = (idx) => {
+        priceTabs.forEach((t, i) => t.classList.toggle('is-active', i === idx));
+        priceCards.forEach((c, i) => {
+          if (window.innerWidth < 768) {
+            c.style.display = i === idx ? '' : 'none';
+          } else {
+            c.style.display = '';
+          }
+        });
+      };
+      priceTabs.forEach((t, i) => t.addEventListener('click', () => setTier(i)));
+      const onResize = () => {
+        const active = Array.from(priceTabs).findIndex(t => t.classList.contains('is-active'));
+        setTier(active < 0 ? 0 : active);
+      };
+      window.addEventListener('resize', onResize);
+      onResize();
+    }
+
+    // Pain progress (mobile horizontal scroll observer — desktop uses static 01-05)
+    // Bio toggle (mobile)
+    const bioToggle = document.getElementById('bio-toggle');
+    const bioExtras = document.querySelectorAll('.bio-extra');
+    if (bioToggle && bioExtras.length) {
+      // Hide extras initially on mobile via CSS-in-JS
+      const isMobile = () => window.innerWidth < 768;
+      const apply = (open) => {
+        bioExtras.forEach(el => {
+          if (isMobile()) {
+            el.style.display = open ? '' : 'none';
+          } else {
+            el.style.display = '';
+          }
+        });
+        const label = bioToggle.querySelector('span');
+        const arrow = bioToggle.querySelector('.bio-arrow');
+        if (label) label.textContent = open ? 'Згорнути' : 'Читати далі';
+        if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0)';
+      };
+      let isOpen = false;
+      apply(false);
+      bioToggle.addEventListener('click', () => { isOpen = !isOpen; apply(isOpen); });
+      window.addEventListener('resize', () => apply(isOpen));
+    }
+  });
+</script>
+
+</body>
+</html>
